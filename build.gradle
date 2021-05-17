@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group 'com.ryanthetechman'
+version '1.0-SNAPSHOT'
+def mainClass = "com.ryanthetechman.ShockingTyper.Main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation 'com.fazecast:jSerialComm:[2.0.0,3.0.0)'
+    implementation 'org.java-websocket:Java-WebSocket:[1.5.2,1.6.0)'
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClass"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
